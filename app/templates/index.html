@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+
+{% block title %}
+{{ title }}	
+{% endblock title %}
+
+{% block content %}
+<h1>Upload your file</h1>
+<form action="" method="POST" enctype=multipart/form-data accept-charset="utf-8">
+	<p><input type="text" name="life" id="life" value="life to file"></p>
+	<p><input type="file" name="file" id="file" value="choose file"><br></p>
+	<p><input type="submit" name="load" id="load" value="Send file"><br></p>
+</form>
+
+<div>
+	{% for file in files %}
+	<p><a href="{{ url_for('get_file', filename=file) }}">{{file}}</a></p>
+		
+	{% endfor %}
+</div>
+	
+{% endblock content %}
