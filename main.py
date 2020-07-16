@@ -1,7 +1,7 @@
 import os
 import sys
 
-from app import app
+from app import app, db, migrate
 
 
 if __name__ == "__main__":
