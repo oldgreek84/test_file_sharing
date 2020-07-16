@@ -11,5 +11,5 @@ class Config:
     UPLOAD_FOLDER = base_dir + '/static/uploads/'
     # UPLOAD_FOLDER = '/static/uploads/'
     ALLOWED_EXTENSIONS = set(
-            ['.jpeg', '.jpg', '.pdf', '.txt', '.docx', '.png', '.gif'])
+            ['.jpeg', '.jpg', '.pdf', '.txt', '.docx', '.png', '.gif', 'fb2'])
     MAX_CONTENT_LENGTH = 2 * 1024 * 1024

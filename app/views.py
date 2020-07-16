@@ -16,6 +16,8 @@ def request_entity_too_large(error):
 def index():
     if request.method == 'POST':
         file = request.files['file']
+        time = request.form['life']
+        print(time)
         filename = secure_filename(file.filename)
         file_ext = os.path.splitext(filename)[1]
         if file_ext not in app.config['ALLOWED_EXTENSIONS']:
