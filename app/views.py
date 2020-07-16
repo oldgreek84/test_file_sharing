@@ -18,13 +18,14 @@ def request_entity_too_large(error):
 
 @app.route('/', methods=['POST', 'GET'])
 def index():
-    if request.method == 'POST':
+    form = FileForm()
+    if form.validate_on_submit():
+
         file = request.files['file']
         time = request.form['life_time']
-        life_date = datetime.datetime.now() + datetime.timedelta(minutes=int(time))
-        print(time)
-        print(life_date)
-        filename = secure_filename(file.filename)
+        now = datetime.datetime.now()
+        life_date = now + datetime.timedelta(minutes=int(time))
+        filename = str(now.microsecond) + secure_filename(file.filename)
         file_ext = os.path.splitext(filename)[1]
         if file_ext not in app.config['ALLOWED_EXTENSIONS']:
             abort(400)
@@ -40,25 +41,36 @@ def index():
             print('not work')
         file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
         return redirect(url_for('uploaded_files', filename=filename))
-    files = os.listdir(app.config['UPLOAD_FOLDER'])
-    links = UploadedFile.query.all()
-    form = FileForm()
-    return render_template('index.html', title='Main Page', files=files,
-            form=form, links=links)
+    return render_template('index.html', title='Main Page',
+            form=form)
 
 @app.route('/uploads/<path:filename>')
 def uploaded_files(filename):
-    return render_template('uploaded.html', link=filename, title='Link to upload') 
+    file = UploadedFile.query.filter_by(name=filename).first_or_404()
+    return render_template('uploaded.html', file=file, title='Link to upload') 
 
 @app.route('/files/<filename>')
 def get_file(filename):
     return send_from_directory(app.config['UPLOAD_FOLDER'], filename)
+
+@app.route('/all')
+def all_files():
+    files = UploadedFile.query.all()
+    return render_template('all_files.html', files=files)
 
 def clear_old(id):
     file = UploadedFile.query.get(id)
     die_time = file.life_time
     now = datetime.datetime.now()
     if now > die_time:
-        os.remove(file.link)
-        print('it is ok')
+        db.session.delete(file)
+        db.session.commit()
+        try:
+            os.remove(file.link)
+            print('it is ok')
+        except FileNotFoundError:
+            print('file not exist')
+    else:
+        print('time to delete: ', die_time)
+        print('not now')
 

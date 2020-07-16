@@ -7,27 +7,19 @@
 {% block content %}
 <h1>Upload your file</h1>
 <form action="" method="POST" enctype=multipart/form-data accept-charset="utf-8">
+	{{ form.hidden_tag() }}
 
 	{% for entry in form %}
 	<p>
-	{{ entry.label }}	
-	{{ entry }}	
+		{% for error in entry.errors %}
+		<span style="color:red;">{{ error }}</span>	
+		{% endfor %}
+	</p>
+	<p>
+	{{ entry|safe }}	
 	</p>
 	{% endfor %}
 </form>
 
-<div>
-	{% for entry in links %}
-	<a href="{{ entry.link }}">{{ entry.name }}</a>	
-	<p>created: {{ entry.created }}</p>
-	<p>life_to: {{ entry.life_time }}</p>
-	{% endfor %}
-</div>
-<div>
-	{% for file in files %}
-	<p><a href="{{ url_for('get_file', filename=file) }}">{{file}}</a></p>
-
-	{% endfor %}
-</div>
 	
 {% endblock content %}
