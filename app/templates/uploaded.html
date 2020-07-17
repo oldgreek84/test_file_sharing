@@ -6,9 +6,9 @@
 
 {% block content %}
 <div>
-	<p>{{ file.id}} | {{ file.name }}</p>
-	<p>created at: {{file.created }}</p>
-	<p>deleted at: {{file.life_time }}</p>
+	<p><b>{{ file.id}}</b> | {{ file.name }}<br>
+	created at: <b>{{file.created }}</b><br>
+	deleted at: <b>{{file.life_time }}</b></p>
 	<p><a href="{{ url_for('get_file', filename=file.name) }}" >link to download</a></p>
 </div>
 	

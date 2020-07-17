@@ -6,20 +6,30 @@
 
 {% block content %}
 <h1>Upload your file</h1>
+<div>
+	<p><b>You may upload file with only this extensions:
+		{{ extensions }}<b></p>
+	<p><b>Max size of your uploaded file is 2 Mb</b></p>
+	<p><b>Max time to safe your file is in 1 to 5 days</b></p>
+</div>
 <form action="" method="POST" enctype=multipart/form-data accept-charset="utf-8">
 	{{ form.hidden_tag() }}
 
 	{% for entry in form %}
+	{% for error in entry.errors %}
+	<span style="color:red;">{{ error }}</span>
+	{% endfor %}
 	<p>
-		{% for error in entry.errors %}
-		<span style="color:red;">{{ error }}</span>	
-		{% endfor %}
-	</p>
-	<p>
-	{{ entry|safe }}	
+	<!-- {{ entry.label }} -->	
+	{{ entry }}	
 	</p>
 	{% endfor %}
 </form>
 
-	
+<div>
+	{% if link %}
+	<a href="{{ url_for('file_detail', filename=link) }}">Link to file detail</a>
+	{% endif %}
+</div>
+
 {% endblock content %}
