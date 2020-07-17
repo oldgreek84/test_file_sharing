@@ -40,6 +40,15 @@ def index():
                     life_time=life_date)
             db.session.add(uploaded_file)
             db.session.commit()
+
+            try:
+                print(app.config['UPLOAD_FOLDER'])
+                print(os.path.exists(app.config['UPLOAD_FOLDER']))
+                if not os.path.exists(app.config['UPLOAD_FOLDER']):
+                    os.makedirs(app.config['UPLOAD_FOLDER'])
+                file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
+            except:
+                flash('not save file on server')
         except:
             flash('not save in db')
             print('not saved file')
@@ -47,10 +56,6 @@ def index():
                 eta=datetime.datetime.utcfromtimestamp(
                     datetime.datetime.timestamp(life_date)))
         return redirect(url_for('uploaded_files', filename=filename))
-    try:
-        file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
-    except:
-        flash('not save file on server')
     return render_template('index.html', title='Main Page',
             form=form, extensions=extensions)
 
