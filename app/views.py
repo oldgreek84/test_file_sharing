@@ -42,8 +42,6 @@ def index():
             db.session.commit()
 
             try:
-                print(app.config['UPLOAD_FOLDER'])
-                print(os.path.exists(app.config['UPLOAD_FOLDER']))
                 if not os.path.exists(app.config['UPLOAD_FOLDER']):
                     os.makedirs(app.config['UPLOAD_FOLDER'])
                 file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
