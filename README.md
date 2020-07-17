@@ -8,9 +8,11 @@ Test file sharing service on flask framework
 ```bash
 cd test_file_sharing
 ```
-- create or run virtual enviroment
+- create and run virtual enviroment
 ```bash
+virualenv env
 source env/bin/activate
+pip3 install -r requirements.txt
 ```
 - run migration of database
 ```bash
