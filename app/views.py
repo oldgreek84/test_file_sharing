@@ -3,7 +3,7 @@ import os
 
 from flask import (
         url_for, render_template, redirect, request, send_from_directory,
-        safe_join, abort
+        safe_join, abort, flash
         )
 from werkzeug.utils import secure_filename
 
@@ -40,14 +40,17 @@ def index():
                     life_time=life_date)
             db.session.add(uploaded_file)
             db.session.commit()
-            file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
         except:
-            abort(404)
+            flash('not save in db')
             print('not saved file')
         clear_old.apply_async(args=[filename],
                 eta=datetime.datetime.utcfromtimestamp(
                     datetime.datetime.timestamp(life_date)))
         return redirect(url_for('uploaded_files', filename=filename))
+    try:
+        file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
+    except:
+        flash('not save file on server')
     return render_template('index.html', title='Main Page',
             form=form, extensions=extensions)
 
