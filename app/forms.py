@@ -11,6 +11,6 @@ class FileForm(FlaskForm):
             validators=[DataRequired(),
                         NumberRange(min=1,
                                     max=5,
-                                    message='value must in 1 to 5')])
+                                    message='value must be in 1 to 5')])
     file = FileField('file', validators=[DataRequired()])
     submit = SubmitField()
