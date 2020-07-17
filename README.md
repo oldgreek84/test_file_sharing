@@ -25,9 +25,13 @@ python3 main.py
 
 ## work with tasks
 
-task work with celery.
+task work with celery and redis.
 
-- install celery
+- install celery and redis
+```bash
+pip3 install celery redis
+```
+
 - run celery worker:
 ```bash
 celery worker -A app.client --loglevel=info
