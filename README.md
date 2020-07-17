@@ -1,6 +1,10 @@
 # test_file_sharing
 Test file sharing service on flask framework
 
+Link to deloyed app:
+
+ - [link to app on Heroku](https://test-sharing-app.herokuapp.com/)
+
 ## to run app
 
 - clone repository
