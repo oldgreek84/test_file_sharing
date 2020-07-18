@@ -42,5 +42,14 @@ pip3 install celery redis
 ```bash
 celery worker -A app.client --loglevel=info
 ```
+- run celery for periodic tasks in new terminal:
+```bash
+celery -A app.client -B -s celerybeat-schedule
+```
+- for app for monitoring tasks - flower:
+```bash
+celery -A app.client flower
+```
 
-after ends time of life file, his will be deleted from server and database.
+After ends time of life file, his will be deleted from server and database.
+Check all old files every day at 00:00 on UTC. 
