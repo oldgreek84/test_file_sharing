@@ -44,8 +44,13 @@ celery worker -A app.client --loglevel=info
 ```
 - run celery for periodic tasks in new terminal:
 ```bash
-celery -A app.client -B -s celerybeat-schedule
+celery -A app.client beat -s celerybeat-schedule
 ```
+- or run in one worker:
+```bash
+celery worker -A app.client -B -s ./celerybeat-schedule --loglevel=info -E
+```
+
 - for app for monitoring tasks - flower:
 ```bash
 celery -A app.client flower
