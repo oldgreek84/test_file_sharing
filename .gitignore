@@ -33,6 +33,10 @@ MANIFEST
 *.manifest
 *.spec
 
+# Flask files
+app/static/uploads/*
+migrations/
+#
 # Installer logs
 pip-log.txt
 pip-delete-this-directory.txt
@@ -119,7 +123,6 @@ venv.bak/
 
 # mkdocs documentation
 /site
-app/static/uploads/*
 
 # mypy
 .mypy_cache/

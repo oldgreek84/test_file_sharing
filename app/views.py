@@ -1,5 +1,6 @@
 import datetime
 import os
+import uuid
 
 from flask import (
         url_for, render_template, redirect, request, send_from_directory,
@@ -26,10 +27,10 @@ def index():
     extensions = list(app.config['ALLOWED_EXTENSIONS'])
     if form.validate_on_submit():
         file = request.files['file']
-        time = request.form['life_time']
+        days_count = request.form['days_count']
         now = datetime.datetime.now()
-        life_date = now + datetime.timedelta(days=int(time))
-        filename = str(now.microsecond) + secure_filename(file.filename)
+        life_date = now + datetime.timedelta(days=int(days_count))
+        filename = str(uuid.uuid4()) + '-' + secure_filename(file.filename)
         file_ext = os.path.splitext(filename)[1]
         if file_ext not in app.config['ALLOWED_EXTENSIONS']:
             abort(400)
@@ -50,7 +51,7 @@ def index():
         except:
             flash('not save in db')
             print('not saved file')
-        clear_old.apply_async(args=[filename],
+        clear_old.apply_async(args=[uploaded_file.id],
                 eta=datetime.datetime.utcfromtimestamp(
                     datetime.datetime.timestamp(life_date)))
         return redirect(url_for('uploaded_files', filename=filename))

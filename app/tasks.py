@@ -1,4 +1,5 @@
 import datetime
+from datetime import timedelta
 import os
 import time
 
@@ -7,15 +8,15 @@ from app.models import UploadedFile
 
 
 @client.task
-def clear_old(filename):
-    ''' func set task that find and delete file and db entry'''
+def clear_old(id):
+    ''' func set task that find and delete file and db entry''' 
 
-    file = UploadedFile.query.filter_by(name=filename).first_or_404()
+    file = UploadedFile.query.get(id)
     db.session.delete(file)
     db.session.commit()
     try:
         os.remove(file.link)
-        print('file and db entry successfully delete')
+        print(f'file and db entry {id} successfully delete')
     except FileNotFoundError:
         print('file not exist')
 
@@ -24,9 +25,11 @@ def clear_old(filename):
 def clear_all():
     ''' func set task check all files and delete they if old '''
 
+    print('task start')
     files = UploadedFile.query.all()
     for file in files:
         clear_one(file.id)
+    print('task end')
 
 def clear_one(id):
     ''' func get file by id and check him to date of delete '''
